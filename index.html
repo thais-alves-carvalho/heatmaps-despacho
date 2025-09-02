@@ -41,4 +41,76 @@
         <img src="heatmap_profundidade_despacho.png" alt="Heatmap Profundidade">
     </div>
 </body>
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Relatório Térmico</title>
+  <style>
+    #detalhe {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+    .botao-detalhe {
+      padding: 8px 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+    .botao-detalhe:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Resumo do Relatório Térmico</h1>
+
+  <button class="botao-detalhe" onclick="toggleDetalhe()">No detalhe+</button>
+
+  <div id="detalhe"></div>
+
+  <script>
+    let carregado = false;
+
+    function toggleDetalhe() {
+      const div = document.getElementById("detalhe");
+      const botao = document.querySelector(".botao-detalhe");
+
+      if (div.style.display === "none") {
+        div.style.display = "block";
+        botao.textContent = "Fechar detalhe–";
+
+        if (!carregado) {
+          fetch('relatorio_termico.txt')
+            .then(response => response.text())
+            .then(texto => {
+              div.textContent = texto;
+              carregado = true;
+            })
+            .catch(error => {
+              div.textContent = "Erro ao carregar o relatório.";
+              console.error(error);
+            });
+        }
+      } else {
+        div.style.display = "none";
+        botao.textContent = "No detalhe+";
+      }
+    }
+  </script>
+
+</body>
+
+    
+
+
 </html>
